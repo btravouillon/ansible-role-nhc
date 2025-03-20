@@ -12,3 +12,12 @@
     owner: root
     group: root
     mode: "0640"
+
+- name: Configure NHC variables
+  when: nhc_variables is defined
+  ansible.builtin.template:
+    src: nhc.default.j2
+    dest: /etc/default/nhc
+    owner: root
+    group: root
+    mode: "0640"

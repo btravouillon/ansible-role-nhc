@@ -6,3 +6,10 @@
 #   *.foo || another_check 1 2 3
 
 nhc_packages: nhc
+
+# List of NHC variables
+# See https://github.com/mej/nhc?tab=readme-ov-file#supported-variables
+# Example:
+# nhc_variables:
+#   - NHC_RM=slurm
+#   - HELPERDIR=/opt/nhc/libexec/nhc/
