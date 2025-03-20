@@ -1,0 +1,14 @@
+---
+- name: Install nhc
+  ansible.builtin.package:
+    name: "{{ nhc_packages }}"
+    state: present
+
+- name: Configure nhc.conf
+  when: nhc_config is defined
+  ansible.builtin.template:
+    src: nhc.conf.j2
+    dest: /etc/nhc/nhc.conf
+    owner: root
+    group: root
+    mode: "0644"

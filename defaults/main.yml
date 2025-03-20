@@ -1,0 +1,8 @@
+---
+# Install nhc.conf from role template
+# nhc_config: |
+#   * || SOMEVAR="value"
+#   * || check_something
+#   *.foo || another_check 1 2 3
+
+nhc_packages: nhc
