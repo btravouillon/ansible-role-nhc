@@ -1,8 +1,15 @@
 ---
+- name: Update APT repository
+  when:
+    - nhc_upgrade
+    - ansible_facts['os_family'] == 'Debian'
+  ansible.builtin.apt:
+    update_cache: true
+
 - name: Install nhc
   ansible.builtin.package:
     name: "{{ nhc_packages }}"
-    state: present
+    state: "{{ 'latest' if nhc_upgrade else 'present' }}"
 
 - name: Configure nhc.conf
   when: nhc_config is defined
