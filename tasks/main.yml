@@ -28,3 +28,28 @@
     owner: root
     group: root
     mode: "0640"
+
+- name: Script to check and fix /etc/nhc/nhc.conf at boot
+  when: nhc_boot_check_script is defined
+  ansible.builtin.copy:
+    dest: /etc/nhc/boot-check.sh
+    content: "{{ nhc_boot_check_script }}"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: NHC boot check script unit file
+  when: nhc_boot_check_script is defined
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/nhc-boot-check.service
+    content: "{{ nhc_boot_check_unit }}"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Enable nhc-boot-check systemd service
+  when: nhc_boot_check_script is defined
+  ansible.builtin.systemd_service:
+    name: nhc-boot-check
+    daemon_reload: true
+    enabled: true

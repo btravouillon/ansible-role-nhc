@@ -17,3 +17,22 @@ nhc_upgrade: false
 # nhc_variables:
 #   - NHC_RM=slurm
 #   - HELPERDIR=/opt/nhc/libexec/nhc/
+
+# A custom script to manipulate /etc/nhc/nhc.conf at boot, if required
+#nhc_boot_check_script: |
+#  #!/usr/bin/bash
+#  lsblk | grep nvme0 | grep boot > /dev/null
+#  if [ $? -eq 0 ]; then
+#      sed -i "/boot/s/nvme./nvme0/" /etc/nhc/nhc.conf
+#  else
+#      sed -i "/boot/s/nvme./nvme1/" /etc/nhc/nhc.conf
+#  fi
+
+# boot check script unit file
+nhc_boot_check_unit: |
+  [Unit]
+  Description=Script to check and fix /etc/nhc/nhc.conf at boot
+  [Service]
+  ExecStart=/etc/nhc/boot-check.sh
+  [Install]
+  WantedBy=multi-user.target
