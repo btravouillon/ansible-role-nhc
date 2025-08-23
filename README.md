@@ -44,6 +44,19 @@ nhc_upgrade: false
 # nhc_variables:
 #   - NHC_RM=slurm
 #   - HELPERDIR=/opt/nhc/libexec/nhc/
+
+# List of NHC custom scripts
+# `src` is mandatory
+# `dest` and `state` are optional
+nhc_scripts:
+  # Add a custom script
+  - src: "{{ inventory_dir }}/files/nhc/custom_script.nhc"
+  # Add a script to custom INCDIR
+  - src: "{{ inventory_dir }}/files/nhc/custom_script_foo.nhc"
+    dest: '/opt/nhc/scripts/custom_script_foo.nhc'
+  # Remove a script
+  - src: "{{ inventory_dir }}/files/nhc/custom_script_bar.nhc"
+    state: absent
 ```
 
 ## Example Playbook

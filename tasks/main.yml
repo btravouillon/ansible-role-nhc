@@ -28,3 +28,22 @@
     owner: root
     group: root
     mode: "0640"
+
+- name: Install NHC scripts
+  loop: "{{ nhc_scripts }}"
+  when: item.state is not defined or item.state != 'absent'
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest | default('/etc/nhc/scripts/' + item.src | basename) }}"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Remove NHC scripts
+  loop: "{{ nhc_scripts }}"
+  when:
+    - item.state is defined
+    - item.state == 'absent'
+  ansible.builtin.file:
+    path: "{{ item.dest | default('/etc/nhc/scripts/' + item.src | basename) }}"
+    state: absent
