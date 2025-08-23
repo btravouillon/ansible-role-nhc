@@ -11,6 +11,16 @@
     name: "{{ nhc_packages }}"
     state: "{{ 'latest' if nhc_upgrade else 'present' }}"
 
+- name: Install NHC scripts
+  loop: "{{ nhc_scripts }}"
+  when: item.state is not defined or item.state != 'absent'
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest | default('/etc/nhc/scripts/' + item.src | basename) }}"
+    owner: root
+    group: root
+    mode: "0644"
+
 - name: Configure nhc.conf
   when: nhc_config is defined
   ansible.builtin.template:
@@ -28,16 +38,6 @@
     owner: root
     group: root
     mode: "0640"
-
-- name: Install NHC scripts
-  loop: "{{ nhc_scripts }}"
-  when: item.state is not defined or item.state != 'absent'
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest | default('/etc/nhc/scripts/' + item.src | basename) }}"
-    owner: root
-    group: root
-    mode: "0644"
 
 - name: Remove NHC scripts
   loop: "{{ nhc_scripts }}"
