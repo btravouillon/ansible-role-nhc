@@ -7,6 +7,10 @@
 
 nhc_packages: nhc
 
+# List of custom NHC scripts
+# See https://github.com/mej/nhc?tab=readme-ov-file#writing-checks
+nhc_scripts: []
+
 # Whether to upgrade existing NHC installation
 # Set to true to upgrade to latest version
 nhc_upgrade: false
