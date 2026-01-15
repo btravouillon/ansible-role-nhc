@@ -5,6 +5,9 @@
 #   * || check_something
 #   *.foo || another_check 1 2 3
 
+# List of custom NHC configuration files
+nhc_custom_configs: []
+
 nhc_packages: nhc
 
 # List of custom NHC scripts

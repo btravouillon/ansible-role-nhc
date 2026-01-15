@@ -38,6 +38,16 @@ nhc_upgrade: false
 #   * || check_hw_cpuinfo 2 8 8
 #   * || check_hw_physmem 1k 1TB
 
+# List of custom NHC configuration files
+# Example:
+# nhc_custom_configs:
+#   - name: nhc_epilog.conf
+#     config:
+#       * || check_ib_link_raw_ber
+#   # Remove a configuration file
+#   - name: nhc_foo.conf
+#     state: absent
+
 # List of NHC environment variables
 # See https://github.com/mej/nhc?tab=readme-ov-file#supported-variables
 # Example:

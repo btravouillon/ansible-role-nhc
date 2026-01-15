@@ -30,6 +30,18 @@
     group: root
     mode: "0640"
 
+- name: Configure custom NHC configuration files
+  loop: "{{ nhc_custom_configs }}"
+  loop_control:
+    label: "Configure /etc/nhc/{{ item.name }}"
+  when: item.state is not defined or item.state != 'absent'
+  ansible.builtin.copy:
+    content: "{{ item.config | mandatory }}"
+    dest: "/etc/nhc/{{ item.name | mandatory }}"
+    owner: root
+    group: root
+    mode: "0640"
+
 - name: Configure NHC variables
   when: nhc_variables is defined
   ansible.builtin.template:
@@ -46,4 +58,15 @@
     - item.state == 'absent'
   ansible.builtin.file:
     path: "{{ item.dest | default('/etc/nhc/scripts/' + item.src | basename) }}"
+    state: absent
+
+- name: Remove NHC custom configuration files
+  loop: "{{ nhc_custom_configs }}"
+  loop_control:
+    label: "Remove /etc/nhc/{{ item.name }}"
+  when:
+    - item.state is defined
+    - item.state == 'absent'
+  ansible.builtin.file:
+    path: "/etc/nhc/{{ item.name | mandatory }}"
     state: absent
